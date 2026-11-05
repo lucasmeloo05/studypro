@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#171326">
+<title>StudyQuest — sua jornada de estudos</title>
+<style>
+:root{--bg:#100d1b;--line:#373052;--muted:#aaa2c5;--pink:#f0abfc;--a1:#a78bfa;--a2:#d69be9;--glow:#30214f}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:radial-gradient(ellipse at 15% 0%,var(--glow) 0,transparent 42%),var(--bg);color:#f5f1ff;font:15px/1.55 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px)}
+button,input,select,textarea{font:inherit}button{cursor:pointer}:focus-visible{outline:2px solid var(--pink);outline-offset:2px}
+.app{max-width:1240px;margin:auto;padding:26px 22px 60px}
+.top{display:flex;align-items:center;gap:13px;margin-bottom:26px}.logo{width:48px;height:48px;border-radius:16px;background:linear-gradient(135deg,var(--a1),var(--a2));display:grid;place-items:center;color:#211634;font-size:25px;font-weight:900}
+.top h1{font-size:22px;margin:0;line-height:1.1}.top p{margin:4px 0 0;color:var(--muted);font-size:12px}
+.layout{display:grid;grid-template-columns:210px minmax(0,1fr);gap:22px}
+.sidebar{background:#171326cc;border:1px solid var(--line);border-radius:20px;padding:13px;height:max-content;position:sticky;top:18px}
+.nav{width:100%;border:0;background:transparent;color:var(--muted);text-align:left;padding:12px 13px;border-radius:12px;margin:2px 0;display:flex;gap:11px;font-weight:650}
+.nav:hover,.nav.active{background:#342951;color:#fff}.nav span{width:22px;text-align:center}
+.side-note{border-top:1px solid var(--line);margin-top:14px;padding:15px 10px 5px;color:var(--muted);font-size:12px}
+main{min-width:0}.view{display:none}.view.active{display:block}
+.eyebrow{font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--pink);font-weight:800}
+h2{font-size:29px;line-height:1.2;margin:5px 0 8px}h3{font-size:17px;margin:0 0 12px}.sub,.muted{color:var(--muted)}.sub{margin:0 0 22px}.sm{font-size:12px}
+.hero{background:linear-gradient(120deg,#32234e,#211a38 65%,#302044);border:1px solid #584475;border-radius:24px;padding:25px 27px;display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:18px}
+.hero p{color:#d0c6e5;margin:8px 0 0;max-width:540px}.hero-art{font-size:70px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin-bottom:18px}
+.stat,.card{background:linear-gradient(160deg,#201b35,#19152b);border:1px solid var(--line);border-radius:18px;padding:18px}.card{margin-bottom:15px}
+.sv{font-size:28px;font-weight:850;margin:6px 0 1px}.sf{font-size:11px;color:#b8afd0}
+.two{display:grid;grid-template-columns:1.2fr .8fr;gap:15px}
+.bar{height:9px;background:#100d1b;border-radius:99px;overflow:hidden;margin:12px 0 7px}.fill{height:100%;width:0;background:linear-gradient(90deg,var(--a1),var(--a2));transition:width .3s}
+.meta{display:flex;justify-content:space-between;color:var(--muted);font-size:12px;gap:8px;flex-wrap:wrap}
+.mission{display:flex;align-items:center;gap:13px;padding:13px 0;border-bottom:1px solid #332c49}.mission:last-child{border:0}
+.mi{width:42px;height:42px;border-radius:13px;background:#342951;display:grid;place-items:center;flex:none}.mm{flex:1;min-width:0}.mm strong{display:block}.mm small{color:var(--muted)}
+.pill{font-size:11px;padding:4px 9px;border-radius:99px;background:#342951;color:#d9caff;border:0}.pill.done{background:#173c35;color:#8deac4}
+.btn{border:0;border-radius:12px;padding:10px 15px;background:linear-gradient(120deg,var(--a1),var(--a2));color:#211631;font-weight:800}.btn:hover{filter:brightness(1.08)}
+.btn.sec{background:#342951;color:#eee7ff;border:1px solid #51446f}.btn.ghost{background:transparent;color:var(--muted);border:1px solid var(--line)}.btn.s{font-size:12px;padding:7px 10px}
+.head{display:flex;justify-content:space-between;align-items:end;gap:15px;margin-bottom:14px;flex-wrap:wrap}
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:12px}.fd{display:flex;flex-direction:column;gap:6px}.full{grid-column:1/-1}.fd label{font-size:12px;color:#c9c0df;font-weight:700}
+input,select,textarea{width:100%;background:#100d1b;border:1px solid #463b60;color:#fff;border-radius:11px;padding:10px 12px}
+.acts{display:flex;gap:9px;margin-top:14px;flex-wrap:wrap}
+.empty{padding:25px;text-align:center;color:var(--muted);border:1px dashed #51446f;border-radius:14px}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}.filter{border:1px solid var(--line);border-radius:99px;background:transparent;color:var(--muted);padding:7px 12px;font-size:12px}.filter.active{background:#342951;color:#fff;border-color:#76609e}
+.badges{display:grid;grid-template-columns:repeat(auto-fit,minmax(135px,1fr));gap:10px}.bc{border:1px solid var(--line);border-radius:15px;padding:14px;background:#171326;text-align:center}.bc .sy{font-size:28px}.bc strong{display:block;margin:6px 0 2px}.bc small{color:var(--muted)}.bc.lock{opacity:.5;filter:grayscale(1)}
+.week{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}.day{border:1px solid var(--line);background:#171326;border-radius:13px;text-align:center;padding:11px 4px}.day .c{width:30px;height:30px;margin:7px auto 0;border-radius:50%;display:grid;place-items:center;background:#2a2440;color:var(--muted)}.day.on .c{background:#24604f;color:#a5f4d4}
+.callout{background:#2b2340;border:1px solid #5d4a7b;border-radius:15px;padding:14px;color:#e9ddff;margin-bottom:15px}
+.notice{font-size:12px;color:var(--muted);border-left:3px solid #a78bfa;padding:9px 12px;background:#211b34;border-radius:0 10px 10px 0;margin-top:12px}
+.msg{padding:11px 0;border-bottom:1px solid #332c49}.msg:last-child{border:0}.msg b{color:#e8dcff}
+.tbl{overflow-x:auto}table{border-collapse:collapse;width:100%;min-width:680px;font-size:13px}th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}th{color:var(--pink);font-size:11px;letter-spacing:.1em;text-transform:uppercase}
+.ov{position:fixed;inset:0;background:#000b;display:none;place-items:center;z-index:30;padding:16px}.ov.show{display:grid}
+.dlg{background:#1b1730;border:1px solid #584475;border-radius:20px;padding:22px;max-width:470px;width:100%;max-height:90vh;overflow:auto}
+.dl{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid var(--line);font-size:14px}
+.toast{position:fixed;bottom:calc(22px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);background:#f5efff;color:#211631;padding:12px 18px;border-radius:12px;font-weight:800;display:none;z-index:40;max-width:90vw;text-align:center}
+.who{margin-left:auto;display:flex;gap:8px;align-items:center;background:#342951;border:1px solid #51446f;color:#fff;border-radius:99px;padding:8px 14px;font-weight:700;font-size:13px}.btn:disabled{opacity:.5;cursor:not-allowed}.cf{position:fixed;top:-14px;width:8px;height:12px;border-radius:2px;z-index:60;pointer-events:none;animation:fall 2s linear forwards}@keyframes fall{to{transform:translateY(110vh) rotate(720deg)}}
+footer{margin-top:25px;padding-top:18px;border-top:1px solid var(--line);color:var(--muted);font-size:11px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+@media(max-width:850px){.layout{grid-template-columns:1fr}.sidebar{position:static;display:flex;overflow:auto}.nav{white-space:nowrap;width:auto}.side-note{display:none}.stats{grid-template-columns:repeat(2,1fr)}.two{grid-template-columns:1fr}}
+@media(max-width:540px){.app{padding:17px 13px 40px}.hero{padding:20px}.hero-art{font-size:46px}.hero h2{font-size:23px}.fg{grid-template-columns:1fr}.full{grid-column:auto}}
+</style></head>
+<body><div class="app">
+<header class="top"><div class="logo">✦</div><div><h1>StudyQuest</h1><p>Transforme pequenas metas em grandes conquistas.</p></div><button class="who" id="who" onclick="show('rewards')" aria-label="Ver recompensas"></button></header>
+<div class="layout">
+<nav class="sidebar" aria-label="Navegação principal">
+<button class="nav active" data-v="home"><span>⌂</span>Visão geral</button>
+<button class="nav" data-v="missions"><span>▤</span>Minhas missões</button>
+<button class="nav" data-v="journey"><span>✧</span>Minha jornada</button>
+<button class="nav" data-v="rewards"><span>🎁</span>Recompensas</button>
+<button class="nav" data-v="team"><span>👥</span>Turma</button>
+<button class="nav" data-v="rules"><span>?</span>Como funciona</button>
+<div class="side-note">Seu ritmo, suas metas.<br>Um passo de cada vez. 🌱</div>
+</nav>
+<main>
+<section id="home" class="view active">
+<div class="hero"><div><div class="eyebrow">Sua jornada começa aqui</div><h2>Um pouco de foco hoje. Uma grande conquista amanhã.</h2><p>Complete o desafio da semana no seu ritmo. Pausas fazem parte e nunca tiram nada de você.</p></div><div class="hero-art" aria-hidden="true">📚</div></div>
+<div class="card" id="chal"></div>
+<div class="stats">
+<div class="stat"><div class="sm muted">Missões concluídas</div><div class="sv" id="sDone"></div><div class="sf">passos realizados</div></div>
+<div class="stat"><div class="sm muted">Taxa de conclusão</div><div class="sv" id="sRate"></div><div class="sf">concluídas ÷ planejadas</div></div>
+<div class="stat"><div class="sm muted">Dias ativos na semana</div><div class="sv" id="sDays"></div><div class="sf">sem cobrança por pausas</div></div>
+<div class="stat"><div class="sm muted">Minutos concluídos</div><div class="sv" id="sMin"></div><div class="sf">tempo nas missões</div></div>
+</div>
+<div class="card"><div class="head"><div><div class="eyebrow">Próximos passos</div><h3 style="margin:3px 0 0">Missões recentes</h3></div><button class="btn sec s" onclick="show('missions')">Ver todas</button></div><div id="homeM"></div></div>
+</section>
+<section id="missions" class="view">
+<div class="eyebrow">Planeje e realize</div><h2>Minhas missões</h2><p class="sub">Divida seus objetivos em sessões pequenas e possíveis.</p>
+<div class="card"><h3>＋ Nova missão</h3><form id="mf"><div class="fg">
+<div class="fd"><label for="subject">Matéria</label><input id="subject" required maxlength="45" placeholder="Ex.: Matemática"></div>
+<div class="fd"><label for="dur">Duração (minutos)</label><input id="dur" type="number" required min="5" max="180" value="25"></div>
+<div class="fd"><label for="task">O que você vai fazer?</label><input id="task" required maxlength="90" placeholder="Ex.: Resolver 5 exercícios"></div>
+<div class="fd"><label for="pair">Estudar com um colega? (opcional)</label><input id="pair" maxlength="30" placeholder="Nome do colega"></div>
+</div><div class="acts"><button class="btn" type="submit">Adicionar missão</button><button class="btn ghost" type="reset">Limpar</button></div></form>
+<div class="notice">Cada missão dura de 5 a 180 minutos e só pode ser concluída uma vez. Para o desafio da semana contam missões de 15 minutos ou mais.</div></div>
+<div class="card"><div class="head"><h3 style="margin:0">Sua lista</h3><span class="sm muted">Ao concluir, você vê o que mudou e pode registrar uma reflexão.</span></div><div class="filters"><button class="filter active" data-f="all">Todas</button><button class="filter" data-f="open">Pendentes</button><button class="filter" data-f="done">Concluídas</button></div><div id="list"></div></div>
+</section>
+<section id="journey" class="view">
+<div class="eyebrow">Evolução sem pressão</div><h2>Minha jornada</h2><p class="sub">Reconheça o que você já fez e escolha o próximo passo.</p>
+<div class="card"><div class="head"><div><h3 style="margin:0">Marcos</h3><span class="sm muted">Desbloqueados por total acumulado e mantidos para sempre</span></div><span class="pill" id="nextM"></span></div><div class="badges" id="badges"></div></div>
+<div class="card"><h3>Consistência nesta semana</h3><p class="muted sm">Um dia fica ativo quando você conclui ao menos uma missão nele. Cada dia conta uma vez.</p><div class="week" id="week"></div></div>
+<div class="callout"><strong>🌿 Lembrete</strong><br>Descansar também faz parte do aprendizado. Não há penalidade por dias sem atividade nem ranking entre pessoas.</div>
+<button class="btn ghost s" onclick="resetAll()">Recomeçar minha jornada</button>
+</section>
+<section id="rewards" class="view"><div class="eyebrow">Suas conquistas</div><h2>Recompensas</h2><p class="sub">XP, níveis e itens para personalizar sua jornada.</p>
+<div class="card" id="lvlCard"></div>
+<div class="two" style="align-items:start"><div class="card" id="chestCard"></div><div class="card"><h3>Mapa de semanas</h3><div class="week" id="wmap" style="grid-template-columns:repeat(6,1fr)"></div><p class="sm muted">Semanas sem desafio aparecem como descanso, nunca como falha.</p></div></div>
+<div class="card"><h3>Coleção</h3><div class="badges" id="coll"></div></div></section>
+<section id="team" class="view">
+<div class="eyebrow">Estudar junto</div><h2>Turma de estudos</h2><p class="sub">Um mural de incentivo, sem ranking e sem comparação.</p>
+<div class="two" style="align-items:start"><div class="card"><h3>Mural</h3><div id="mural"></div></div>
+<div class="card"><h3>Enviar incentivo</h3><div class="fd"><label for="inc">Escolha uma mensagem</label><select id="inc"><option>Você consegue, um passo de cada vez! 💜</option><option>Parabéns pela constância! 🌟</option><option>Quer estudar junto amanhã? 👥</option></select></div><div class="acts"><button class="btn" onclick="sendMsg()">Enviar à turma</button></div><div class="notice">Mensagens prontas e positivas. Também dá para criar uma missão em dupla na aba Minhas missões.</div></div></div>
+</section>
+<section id="rules" class="view">
+<div class="eyebrow">Regras claras</div><h2>Como funciona</h2><p class="sub">Mecânicas simples para manter a constância sem pressão.</p>
+<div class="card"><div class="tbl"><table>
+<thead><tr><th>Mecânica</th><th>Como acionar</th><th>Validação</th><th>Resultado</th><th>Limites</th></tr></thead><tbody>
+<tr><td><b>📝 Missões</b></td><td>Criar e tocar em “Concluir”.</td><td>Pendente, de 5 a 180 min.</td><td>Marca como concluída, soma minutos e atualiza a taxa.</td><td>Conta uma única vez.</td></tr>
+<tr><td><b>🎯 Desafio da semana</b></td><td>Concluir missões de segunda a domingo.</td><td>Só missões de 15 min ou mais; meta escolhida entre 3 e 5.</td><td>Barra de progresso; ao atingir a meta, libera o marco 🏆.</td><td>Reinicia a cada semana; a meta não pode ser trocada após cumprir.</td></tr>
+<tr><td><b>🪞 Reflexão</b></td><td>Opcional, ao concluir uma missão.</td><td>Escolher a dificuldade (texto é opcional).</td><td>Conta para o marco “Mente curiosa” e valoriza a qualidade, não só a quantidade.</td><td>Uma por missão.</td></tr>
+<tr><td><b>⭐ XP e níveis</b></td><td>Concluir missões (1 XP por minuto) e registrar reflexões (+10 XP).</td><td>Teto de 150 XP por dia.</td><td>Sobe de nível: Curioso (0), Aprendiz (100), Explorador (300) e Mestre (600).</td><td>O XP nunca diminui.</td></tr>
+<tr><td><b>🎁 Baú semanal</b></td><td>Cumprir o desafio da semana (+50 XP).</td><td>Um baú por semana cumprida.</td><td>Tema de cores ou avatar ainda não obtido; se já tiver tudo, uma dica de estudo.</td><td>Não pode ser comprado nem acumulado por outro meio.</td></tr>
+<tr><td><b>🌱 Marcos</b></td><td>Acumular 1, 3 e 5 missões, 3 reflexões e o desafio.</td><td>Calculado sobre totais acumulados.</td><td>Desbloqueia o marco em Minha jornada.</td><td>Nunca são removidos.</td></tr>
+<tr><td><b>📅 Consistência</b></td><td>Concluir ao menos uma missão no dia.</td><td>Data de conclusão.</td><td>Dia ganha ✓ no calendário.</td><td>Um ✓ por dia; sem penalidade.</td></tr>
+<tr><td><b>👥 Turma</b></td><td>Enviar incentivo ou estudar em dupla.</td><td>Mensagens prontas.</td><td>Mensagem no mural; missão com o nome do colega.</td><td>Sem ranking e sem comparação.</td></tr>
+</tbody></table></div></div>
+<div class="callout"><strong>💜 Para todos</strong><br>Estados sempre aparecem em texto e símbolo, nunca só por cor. A meta é sua, o ritmo é seu.</div>
+</section>
+<footer><span>StudyQuest · Estude no seu ritmo</span><span>Seus dados ficam salvos apenas neste navegador.</span></footer>
+</main></div></div>
+<div class="ov" id="ov" role="dialog" aria-modal="true" aria-labelledby="dt"><div class="dlg" id="dlg"></div></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>
+const KEY='studyquest_v5',$=i=>document.getElementById(i),pad=n=>String(n).padStart(2,'0');
+const fmt=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+const dayKey=n=>{let d=new Date();d.setDate(d.getDate()-(n||0));return fmt(d)};
+const wd=()=>(new Date().getDay()+6)%7;const wkStart=o=>{let d=new Date();d.setDate(d.getDate()-wd()-7*o);return fmt(d)};
+function weekKeys(){let s=new Date();s.setDate(s.getDate()-wd());return[0,1,2,3,4,5,6].map(i=>{let d=new Date(s);d.setDate(s.getDate()+i);return fmt(d)})}
+const seed=()=>({goal:4,xp:75,xpDay:{[dayKey(0)]:25,[dayKey(1)]:50},chests:1,weeks:[wkStart(2)],own:['t:roxo','a:✦'],theme:'t:roxo',av:'a:✦',unlocked:['m1'],missions:[
+{id:1,subject:'Matemática',task:'Revisar funções e gráficos',minutes:25,done:true,completedAt:dayKey(0)},
+{id:2,subject:'Programação',task:'Praticar estruturas de repetição',minutes:50,done:true,completedAt:dayKey(1)},
+{id:3,subject:'Desenvolvimento de Jogos',task:'Revisar mecânicas e loop principal',minutes:25,done:false,partner:'Ana'},
+{id:4,subject:'Banco de Dados',task:'Resolver exercícios de SQL',minutes:30,done:false}],
+mural:[{w:'Ana',t:'Bora fechar a semana! 💪'},{w:'Bruno',t:'Terminei minha revisão de SQL. Foi mais leve do que eu pensava.'},{w:'Carla',t:'Pausa também é estudo. Descansem sem culpa 🌱'}]});
+function load(){try{let v=JSON.parse(localStorage.getItem(KEY));if(v&&Array.isArray(v.missions)&&Array.isArray(v.unlocked)&&Array.isArray(v.mural))return v}catch(e){}return seed()}
+let S=load(),filter='all';
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function toast(s){let t=$('toast');t.textContent=s;t.style.display='block';clearTimeout(window.tt);window.tt=setTimeout(()=>t.style.display='none',2800)}
+function show(id){document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id===id));document.querySelectorAll('.nav').forEach(v=>v.classList.toggle('active',v.dataset.v===id));scrollTo({top:0,behavior:'smooth'})}
+document.querySelectorAll('.nav').forEach(b=>b.onclick=()=>show(b.dataset.v));
+document.querySelectorAll('.filter').forEach(b=>b.onclick=()=>{filter=b.dataset.f;document.querySelectorAll('.filter').forEach(x=>x.classList.toggle('active',x===b));renderList()});
+$('mf').onsubmit=e=>{e.preventDefault();let subject=$('subject').value.trim(),task=$('task').value.trim(),minutes=Number($('dur').value),partner=$('pair').value.trim();
+if(!subject||!task||!Number.isInteger(minutes)||minutes<5||minutes>180){toast('A duração deve estar entre 5 e 180 minutos.');return}
+S.missions.unshift({id:Date.now(),subject,task,minutes,done:false,partner});e.target.reset();$('dur').value=25;render();toast('Missão adicionada à sua jornada!')};
+function stats(){let ms=S.missions,d=ms.filter(m=>m.done),k=weekKeys(),w=d.filter(m=>m.minutes>=15&&k.includes(m.completedAt)).length;
+return{n:d.length,t:ms.length,rate:ms.length?Math.round(d.length/ms.length*100):0,min:d.reduce((a,m)=>a+m.minutes,0),r:d.filter(m=>m.reflection).length,w,c:w>=S.goal,days:new Set(d.map(m=>m.completedAt).filter(x=>k.includes(x))).size}}
+const BADGES=[['🌱','Primeiro passo','1 missão concluída','m1',s=>s.n>=1],['🌿','Ritmo','3 missões concluídas','m3',s=>s.n>=3],['🌸','Constância','5 missões concluídas','m5',s=>s.n>=5],['🪞','Mente curiosa','3 reflexões registradas','r3',s=>s.r>=3],['🏆','Desafio cumprido','Meta da semana atingida','c1',s=>s.c]];
+function nextMarco(s){let x=[1,3,5].find(v=>v>s.n);return x?`Faltam ${x-s.n} missão(ões) para o próximo marco`:'Marcos de missões completos'}
+function complete(id){let m=S.missions.find(x=>x.id===id);if(!m)return;if(m.done){toast('Esta missão já foi concluída e não soma novamente.');return}
+let b=stats(),u0=[...S.unlocked],lv0=getLv().i,w0=S.weeks.length,g=award(m.minutes);m.done=true;m.completedAt=dayKey(0);render();let a=stats(),nu=S.unlocked.filter(x=>!u0.includes(x)),nx=S.missions.find(x=>!x.done),wonW=S.weeks.length>w0,up=getLv().i>lv0;
+$('dlg').innerHTML=`<div class="eyebrow">${pick(PRAISE)}</div><h3 id="dt" style="margin:4px 0 12px">${esc(m.subject)} · ${esc(m.task)}</h3>
+<div class="dl"><span>Taxa de conclusão</span><b>${b.rate}% → ${a.rate}%</b></div>
+<div class="dl"><span>Desafio da semana</span><b>${m.minutes>=15?Math.min(b.w,S.goal)+' → '+Math.min(a.w,S.goal):'não contou (menos de 15 min)'}${m.minutes>=15?' de '+S.goal:''}</b></div>
+<div class="dl"><span>Minutos acumulados</span><b>${b.min} → ${a.min}</b></div>
+<div class="dl"><span>XP ganho</span><b>+${g} XP${g<m.minutes?' (teto diário)':''}</b></div>
+<div class="dl"><span>Próximo marco</span><b style="text-align:right">${nextMarco(a)}</b></div>
+${nu.length?`<div class="callout" style="margin-top:12px">🎉 Novo marco: ${nu.map(x=>BADGES.find(g=>g[3]===x)[1]).join(', ')}</div>`:''}
+${wonW?'<div class="callout" style="margin-top:12px">🏆 Desafio da semana cumprido! +50 XP e um baú novo em Recompensas.</div>':''}${up?`<div class="callout" style="margin-top:12px">⬆️ Você subiu para o nível ${getLv().n}!</div>`:''}
+${m.partner?`<p class="sm muted">👥 Avise ${esc(m.partner)} que você concluiu!</p>`:''}
+<h3 style="margin:16px 0 8px">Reflexão (opcional)</h3>
+<div class="fd"><label for="lvl">Como foi essa missão?</label><select id="lvl"><option value="">Pular reflexão</option><option>Tranquila</option><option>No ponto certo</option><option>Desafiadora</option></select></div>
+<div class="fd" style="margin-top:10px"><label for="txt">O que você aprendeu? (opcional)</label><textarea id="txt" rows="2" maxlength="120"></textarea></div>
+${nx?`<p class="sm muted">Próxima sugestão: ${esc(nx.subject)} · ${esc(nx.task)}</p>`:'<p class="sm muted">Todas as missões concluídas. Que tal criar a próxima?</p>'}
+<div class="acts"><button class="btn" onclick="closeM(${m.id})">Continuar</button></div>`;
+$('ov').classList.add('show');$('lvl').focus();confetti(wonW||up?150:45)}
+function closeM(id){let lvl=$('lvl').value,m=S.missions.find(x=>x.id===id);if(m&&lvl&&!m.reflection){let u0=[...S.unlocked];m.reflection={lvl,txt:$('txt').value.trim()};let gx=award(10);render();if(S.unlocked.some(x=>!u0.includes(x)))toast('Reflexão salva e novo marco desbloqueado! 🪞');else toast('Reflexão salva'+(gx?' (+'+gx+' XP)':'')+'. Obrigado por pensar sobre seu estudo!')}$('ov').classList.remove('show')}
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('ov').classList.contains('show'))$('ov').classList.remove('show')});
+const LV=[[0,'Curioso'],[100,'Aprendiz'],[300,'Explorador'],[600,'Mestre']],CAP=150,PRAISE=['Missão concluída ✨','Mais um passo dado! 🌟','Constância em ação 💜','Boa! Você apareceu hoje 🙌'];
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+const ITEMS=[['t:roxo','Roxo','🔮','#a78bfa','#d69be9','#30214f','#f0abfc'],['t:aurora','Aurora','🌿','#34d399','#67e8f9','#12403a','#86efac'],['t:sol','Pôr do sol','🌅','#fb923c','#f472b6','#4a2230','#fdba74'],['t:mar','Oceano','🌊','#60a5fa','#38bdf8','#15304f','#93c5fd'],['a:✦','Estrela','✦'],['a:🦊','Raposa','🦊'],['a:🐙','Polvo','🐙'],['a:🦉','Coruja','🦉'],['a:🚀','Foguete','🚀']];
+const TIPS=['Dica: estudos curtos e frequentes ajudam mais a memória do que maratonas.','Dica: explique o conteúdo em voz alta, como se ensinasse alguém.','Dica: comece pela parte mais difícil quando estiver com energia.'];
+function getLv(){let i=0;LV.forEach((l,j)=>{if(S.xp>=l[0])i=j});let nx=LV[i+1];return{i,n:LV[i][1],nx:nx?nx[1]:null,need:nx?nx[0]-S.xp:0,p:nx?Math.round((S.xp-LV[i][0])/(nx[0]-LV[i][0])*100):100}}
+function award(n){let k=dayKey(0),u=S.xpDay[k]||0,g=Math.max(0,Math.min(n,CAP-u));S.xpDay[k]=u+g;S.xp+=g;return g}
+function confetti(n){if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;const c=['#a78bfa','#f0abfc','#7ee7bd','#f6d88b','#ff9baf'];for(let i=0;i<n;i++){let e=document.createElement('i');e.className='cf';e.style.cssText=`left:${Math.random()*100}vw;background:${pick(c)};animation-duration:${1.4+Math.random()*1.4}s;animation-delay:${Math.random()*.4}s`;document.body.appendChild(e);setTimeout(()=>e.remove(),3600)}}
+function equip(id){if(!S.own.includes(id))return;if(id[0]==='t')S.theme=id;else S.av=id;render()}
+function openChest(){if(S.chests<1)return;let pool=ITEMS.filter(x=>!S.own.includes(x[0])),it=pool.length?pick(pool):null;S.chests--;if(it)S.own.push(it[0]);render();
+$('dlg').innerHTML=`<div class="eyebrow">Baú semanal</div><h3 id="dt" style="margin:4px 0 12px">${it?'Você encontrou: '+it[2]+' '+esc(it[1]):'Coleção completa!'}</h3><p class="muted">${it?(it[0][0]==='t'?'Novo tema de cores. Equipe em Recompensas.':'Novo avatar. Equipe em Recompensas.'):pick(TIPS)}</p><div class="acts"><button class="btn" onclick="$('ov').classList.remove('show')">Fechar</button></div>`;$('ov').classList.add('show');confetti(90)}
+function renderRewards(){let l=getLv(),av=ITEMS.find(x=>x[0]===S.av)||ITEMS[4],th=ITEMS.find(x=>x[0]===S.theme)||ITEMS[0],t=S.xpDay[dayKey(0)]||0,r=document.documentElement.style;
+r.setProperty('--a1',th[3]);r.setProperty('--a2',th[4]);r.setProperty('--glow',th[5]);r.setProperty('--pink',th[6]);
+$('who').innerHTML=`<span aria-hidden="true">${av[2]}</span> ${l.n} · ${S.xp} XP`;
+$('lvlCard').innerHTML=`<div class="head"><div><div class="eyebrow">Seu nível</div><h3 style="margin:3px 0 0">${av[2]} ${l.n}</h3></div><span class="pill">${S.xp} XP</span></div><div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${l.p}"><div class="fill" style="width:${l.p}%"></div></div><div class="meta"><span>${l.nx?'Faltam '+l.need+' XP para '+l.nx:'Nível máximo alcançado 🎓'}</span><strong>Hoje: ${t}/${CAP} XP</strong></div><div class="notice">O XP nunca diminui. O teto diário evita marcar missões longas demais só para acumular pontos.</div>`;
+$('chestCard').innerHTML=`<div class="eyebrow">Baú semanal</div><h3 style="margin:3px 0 8px">🎁 ${S.chests} baú(s) para abrir</h3><p class="muted sm">Cada semana com o desafio cumprido libera um baú com um tema ou avatar. Se você já tem tudo, ele traz uma dica de estudo.</p><button class="btn" onclick="openChest()" ${S.chests?'':'disabled'}>Abrir baú</button>`;
+$('coll').innerHTML=ITEMS.map(x=>{let o=S.own.includes(x[0]),eq=S.theme===x[0]||S.av===x[0];return `<div class="bc ${o?'':'lock'}"><div class="sy" aria-hidden="true">${x[2]}</div><strong>${x[1]}</strong><small>${x[0][0]==='t'?'Tema':'Avatar'}</small><div style="margin-top:6px">${o?`<button class="btn s ${eq?'sec':''}" ${eq?'disabled':''} onclick="equip('${x[0]}')">${eq?'✓ Equipado':'Equipar'}</button>`:'<span class="sm">🔒 Baú semanal</span>'}</div></div>`}).join('');
+$('wmap').innerHTML=[5,4,3,2,1,0].map(o=>{let k=wkStart(o),d=k.slice(8)+'/'+k.slice(5,7),w=S.weeks.includes(k);return `<div class="day ${w?'on':''}"><strong>${d}</strong><div class="c" aria-hidden="true">${w?'🏆':o===0?'⏳':'🌙'}</div><div class="sm">${w?'Cumprido':o===0?'Em andamento':'Descanso'}</div></div>`}).join('')}
+function setGoal(v){S.goal=Number(v);let w0=S.weeks.length;render();if(S.weeks.length>w0){toast('Desafio cumprido! 🏆 Baú liberado.');confetti(150)}}
+function sendMsg(){S.mural.unshift({w:'Você',t:$('inc').value});S.mural=S.mural.slice(0,8);render();toast('Incentivo enviado à turma! 💜')}
+function resetAll(){if(!confirm('Recomeçar apaga suas missões e marcos neste navegador. Continuar?'))return;S=seed();render();toast('Jornada reiniciada.')}
+function mHTML(m){return `<div class="mission"><div class="mi" aria-hidden="true">${m.done?'✓':'✎'}</div><div class="mm"><strong>${esc(m.subject)} · ${esc(m.task)}</strong><small>${m.minutes} min · ${m.done?'Concluída':'Pendente'}${m.partner?' · 👥 com '+esc(m.partner):''}${m.reflection?' · 🪞 '+esc(m.reflection.lvl):''}</small></div><div>${m.done?`<button class="pill done" onclick="complete(${m.id})">✓ Concluída</button>`:`<button class="btn s" onclick="complete(${m.id})">Concluir</button>`}</div></div>`}
+function renderList(){let l=S.missions.filter(m=>filter==='all'||(filter==='done'?m.done:!m.done));$('list').innerHTML=l.length?l.map(mHTML).join(''):'<div class="empty">Nenhuma missão nesta categoria.</div>'}
+function render(){let s=stats();if(s.c&&!S.weeks.includes(wkStart(0))){S.weeks.push(wkStart(0));S.chests++;S.xp+=50}BADGES.forEach(b=>{if(b[4](s)&&!S.unlocked.includes(b[3]))S.unlocked.push(b[3])});
+$('sDone').textContent=s.n;$('sRate').textContent=s.rate+'%';$('sDays').textContent=s.days+'/7';$('sMin').textContent=s.min;
+let p=Math.min(100,Math.round(s.w/S.goal*100)),left=7-wd();
+$('chal').innerHTML=`<div class="head"><div><div class="eyebrow">Desafio da semana</div><h3 style="margin:3px 0 0">Concluir ${S.goal} missões de 15 min ou mais até domingo</h3></div><div class="fd" style="min-width:150px"><label for="goal">Minha meta</label><select id="goal" onchange="setGoal(this.value)" ${s.c?'disabled':''}>${[3,4,5].map(g=>`<option value="${g}" ${g===S.goal?'selected':''}>${g} missões</option>`).join('')}</select></div></div>
+<div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${p}"><div class="fill" style="width:${p}%"></div></div>
+<div class="meta"><span>${s.c?'🏆 Desafio cumprido! Você pode seguir no seu ritmo.':'Faltam '+(S.goal-s.w)+' missão(ões) · '+(left===1?'último dia':left+' dias restantes')}</span><strong>${Math.min(s.w,S.goal)} de ${S.goal}</strong></div>
+<div class="notice">Desafio sem punição: se a semana não sair como planejado, ele reinicia na segunda-feira e seus marcos continuam com você.</div>`;
+$('homeM').innerHTML=S.missions.slice(0,3).map(mHTML).join('')||'<div class="empty">Crie sua primeira missão para começar.</div>';
+renderList();$('nextM').textContent=nextMarco(s);
+$('badges').innerHTML=BADGES.map(b=>{let u=S.unlocked.includes(b[3]);return `<div class="bc ${u?'':'lock'}"><div class="sy" aria-hidden="true">${b[0]}</div><strong>${b[1]}</strong><small>${b[2]}</small><div class="sm" style="margin-top:5px">${u?'✓ Desbloqueado':'Ainda não desbloqueado'}</div></div>`}).join('');
+let k=weekKeys();$('week').innerHTML=['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'].map((n,i)=>{let a=S.missions.some(m=>m.done&&m.completedAt===k[i]);return `<div class="day ${a?'on':''}"><strong>${n}</strong><div class="c">${a?'✓':'·'}</div></div>`}).join('');
+$('mural').innerHTML=S.mural.map(x=>`<div class="msg"><b>${esc(x.w)}</b><br>${esc(x.t)}</div>`).join('');
+renderRewards();save()}
+render();
+</script></body></html>
